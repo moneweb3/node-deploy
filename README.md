@@ -8,7 +8,8 @@ Before proceeding to the next steps, please ensure that the following packages a
 - go: 1.24+
 - foundry
 - python3 3.12.x
-- poetry
+- poetry 
+( install pipx https://pipx.pypa.io/stable/installation/ then run `pipx install poetry`)
 - jq
 
 
@@ -29,6 +30,7 @@ pip3 install -r requirements.txt
 # This tool is used to register the validators into StakeHub.
 cd create-validator
 go build
+cd ..
 ```
 
 4. Configure the cluster
@@ -37,11 +39,13 @@ go build
    - `config.toml`
    - `genesis/genesis-template.json`
    - `genesis/scripts/init_holders.template`
-   - `.env`
+   - `.env` (especially your address for testing)
 ```
 
-5. Setup all nodes.
-two different ways, choose as you like.
+5. Prepare the geth binary file and put into the `bin` folder. You can download the executable official binary file from https://github.com/bnb-chain/bsc/releases, rename it to `geth` and make it executable `chmod +x geth`
+
+6. Setup all nodes.
+Run the first command to start the validator cluster first time.
 ```bash
 bash -x ./bsc_cluster.sh reset # will reset the cluster and start
 # The 'vidx' parameter is optional. If provided, its value must be in the range [0, ${BSC_CLUSTER_SIZE}). If omitted, it affects all clusters.
@@ -50,7 +54,7 @@ bash -x ./bsc_cluster.sh start [vidx] # only start the cluster
 bash -x ./bsc_cluster.sh restart [vidx] # start the cluster after stopping it
 ```
 
-6. Setup a full node.
+7. Setup a full node.
 If you want to run a full node to test snap/full syncing, you can run:
 
 > Attention: it relies on the validator cluster, so you should set up validators by `bsc_cluster.sh` firstly.
@@ -88,3 +92,4 @@ cd txblob
 go build
 ./txblob
 ```
+
